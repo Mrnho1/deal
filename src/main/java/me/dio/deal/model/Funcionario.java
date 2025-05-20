@@ -1,5 +1,6 @@
 package me.dio.deal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -16,8 +17,13 @@ public class Funcionario {
     private String cargo;
     private String matricula;
 
-    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JornadaTrabalho> jornadas;
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "funcionario-jornadas")
+    private List<JornadaTrabalho> jornadasTrabalho;
+
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "funcionario-registros")
+    private List<RegistroPonto> registrosPonto;
 
     @OneToOne(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
     private BancoHoras bancoHoras;
@@ -39,8 +45,11 @@ public class Funcionario {
     public String getMatricula() { return matricula; }
     public void setMatricula(String matricula) { this.matricula = matricula; }
 
-    public List<JornadaTrabalho> getJornadas() { return jornadas; }
-    public void setJornadas(List<JornadaTrabalho> jornadas) { this.jornadas = jornadas; }
+    public List<JornadaTrabalho> getJornadasTrabalho() { return jornadasTrabalho; }
+    public void setJornadasTrabalho(List<JornadaTrabalho> jornadasTrabalho) { this.jornadasTrabalho = jornadasTrabalho; }
+
+    public List<RegistroPonto> getRegistrosPonto() { return registrosPonto; }
+    public void setRegistrosPonto(List<RegistroPonto> registrosPonto) { this.registrosPonto = registrosPonto; }
 
     public BancoHoras getBancoHoras() { return bancoHoras; }
     public void setBancoHoras(BancoHoras bancoHoras) { this.bancoHoras = bancoHoras; }

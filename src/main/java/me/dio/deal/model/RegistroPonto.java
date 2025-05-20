@@ -1,5 +1,6 @@
 package me.dio.deal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -18,9 +19,15 @@ public class RegistroPonto {
 
     private Boolean ajustadoManualmente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "jornada_trabalho_id")
+    @JsonBackReference
     private JornadaTrabalho jornadaTrabalho;
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    @JsonBackReference(value = "funcionario-registros")
+    private Funcionario funcionario;
 
     // Getters e setters
 
@@ -38,4 +45,7 @@ public class RegistroPonto {
 
     public JornadaTrabalho getJornadaTrabalho() { return jornadaTrabalho; }
     public void setJornadaTrabalho(JornadaTrabalho jornadaTrabalho) { this.jornadaTrabalho = jornadaTrabalho; }
+
+    public Funcionario getFuncionario() { return funcionario; }
+    public void setFuncionario(Funcionario funcionario) { this.funcionario = funcionario; }
 }

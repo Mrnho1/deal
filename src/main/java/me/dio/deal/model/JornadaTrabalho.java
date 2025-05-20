@@ -1,8 +1,8 @@
 package me.dio.deal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -13,40 +13,28 @@ public class JornadaTrabalho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data;
+    private String descricao;
 
-    private LocalTime almocoInicio;
-    private LocalTime almocoFim;
-
-    private String totalHorasTrabalhadas;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "funcionario_id")
+    @JsonBackReference(value = "funcionario-jornadas")
     private Funcionario funcionario;
 
-    @OneToMany(mappedBy = "jornadaTrabalho", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RegistroPonto> registros;
+    @OneToMany(mappedBy = "jornadaTrabalho", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<RegistroPonto> registrosPonto;
 
     // Getters e setters
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public LocalDate getData() { return data; }
-    public void setData(LocalDate data) { this.data = data; }
-
-    public LocalTime getAlmocoInicio() { return almocoInicio; }
-    public void setAlmocoInicio(LocalTime almocoInicio) { this.almocoInicio = almocoInicio; }
-
-    public LocalTime getAlmocoFim() { return almocoFim; }
-    public void setAlmocoFim(LocalTime almocoFim) { this.almocoFim = almocoFim; }
-
-    public String getTotalHorasTrabalhadas() { return totalHorasTrabalhadas; }
-    public void setTotalHorasTrabalhadas(String totalHorasTrabalhadas) { this.totalHorasTrabalhadas = totalHorasTrabalhadas; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
     public Funcionario getFuncionario() { return funcionario; }
     public void setFuncionario(Funcionario funcionario) { this.funcionario = funcionario; }
 
-    public List<RegistroPonto> getRegistros() { return registros; }
-    public void setRegistros(List<RegistroPonto> registros) { this.registros = registros; }
+    public List<RegistroPonto> getRegistrosPonto() { return registrosPonto; }
+    public void setRegistrosPonto(List<RegistroPonto> registrosPonto) { this.registrosPonto = registrosPonto; }
 }
